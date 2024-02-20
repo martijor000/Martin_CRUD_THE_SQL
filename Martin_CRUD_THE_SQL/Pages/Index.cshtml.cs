@@ -50,6 +50,7 @@ namespace Martin_CRUD_THE_SQL.Pages
                 var updatedCheckOutProducts = new List<Product>(CheckOutProducts);
                 updatedCheckOutProducts.Add(product);
                 CheckOutProducts = updatedCheckOutProducts;
+                HttpContext.Session.Set("SelectedProduct", product);
             }
             return RedirectToPage();
         }

@@ -4,7 +4,8 @@ using Microsoft.Extensions.Logging;
 using Martin_CRUD_THE_SQL.Models;
 using Martin_CRUD_THE_SQL.Services;
 using System;
-using System.Threading.Tasks;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Martin_CRUD_THE_SQL.Pages.Checkout
 {
@@ -30,25 +31,25 @@ namespace Martin_CRUD_THE_SQL.Pages.Checkout
                 Phone = Request.Form["Phone"]
             };
 
+            List<Product> orderItems = HttpContext.Session.Get<List<Product>>("CheckOutProducts");
+
+            var orderItemsWithQuantity = orderItems.Select(p => new OrderItem
+            {
+                ProductId = p.Id,
+                Quantity = 1,
+                UnitPrice = p.UnitPrice
+            }).ToList();
+
             var order = new Order
             {
-                OrderDate = DateTime.Now, 
-                OrderNumber = GenerateOrderNumber(customer.LastName.Substring(0,2)),
-                TotalAmount = 0.0m
+                OrderDate = DateTime.Now,
+                OrderNumber = GenerateOrderNumber(customer.LastName.Substring(0, 2)),
+                TotalAmount = orderItems.Sum(p => p.UnitPrice)
             };
 
-            Product sessionProduct = HttpContext.Session.Get<Product>("SelectedProduct");
+            _orderService.InsertCustomerAndOrder(customer, order, orderItemsWithQuantity);
 
-            var orderItem = new OrderItem
-            {
-                ProductId = sessionProduct.Id,
-                Quantity = 1,
-                UnitPrice = sessionProduct.UnitPrice
-            };
-
-            _orderService.InsertCustomerAndOrder(customer, order, orderItem);
-
-            return RedirectToPage("/Checkout/OrderConfirmation");
+            return RedirectToPage("/Checkout/OrderConfirmation", new {customer.FirstName,customer.Id, order.OrderNumber, orderItems});
         }
 
         private string GenerateOrderNumber(string lastName)

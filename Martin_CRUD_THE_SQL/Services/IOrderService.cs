@@ -12,6 +12,6 @@ namespace Martin_CRUD_THE_SQL.Services
         List<Product> Products { get; set; }
         List<Product> GetAllProducts();
         List<NewCustomerSummary> GetRecentOrders();
-        void InsertCustomerAndOrder(Customer customer, Order order, OrderItem orderItem);
+        void InsertCustomerAndOrder(Customer customer, Order order, List<OrderItem> orderItem);
     }
 }

@@ -84,27 +84,29 @@ namespace Martin_CRUD_THE_SQL.Data
             return recentOrders;
         }
 
-        public void InsertCustomerAndOrder(Customer customer, Order order, OrderItem orderItem)
+        public void InsertCustomerAndOrder(Customer customer, Order order, List<OrderItem> orderItem)
         {
             using (SqlConnection connection = new SqlConnection(GetConnectionString()))
             {
-                SqlCommand cmd = new SqlCommand("InsertCustomerAndOrder_Lastname", connection);
-                cmd.CommandType = CommandType.StoredProcedure;
-
-                cmd.Parameters.AddWithValue("@FirstName", customer.FirstName);
-                cmd.Parameters.AddWithValue("@LastName", customer.LastName);
-                cmd.Parameters.AddWithValue("@City", customer.City);
-                cmd.Parameters.AddWithValue("@Country", customer.Country);
-                cmd.Parameters.AddWithValue("@Phone", customer.Phone);
-                cmd.Parameters.AddWithValue("@OrderDate", order.OrderDate);
-                cmd.Parameters.AddWithValue("@OrderNumber", order.OrderNumber);
-                cmd.Parameters.AddWithValue("@TotalAmount", order.TotalAmount);
-                cmd.Parameters.AddWithValue("@UnitPrice", orderItem.UnitPrice);
-                cmd.Parameters.AddWithValue("@Quantity", orderItem.Quantity);
-                cmd.Parameters.AddWithValue("@ProductID", orderItem.ProductId);
-
                 connection.Open();
-                cmd.ExecuteNonQuery();
+
+                foreach (OrderItem oi in orderItem)
+                {
+                    SqlCommand cmd = new SqlCommand("InsertCustomerAndOrder_Lastname", connection);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@FirstName", customer.FirstName);
+                    cmd.Parameters.AddWithValue("@LastName", customer.LastName);
+                    cmd.Parameters.AddWithValue("@City", customer.City);
+                    cmd.Parameters.AddWithValue("@Country", customer.Country);
+                    cmd.Parameters.AddWithValue("@Phone", customer.Phone);
+                    cmd.Parameters.AddWithValue("@OrderDate", order.OrderDate);
+                    cmd.Parameters.AddWithValue("@OrderNumber", order.OrderNumber);
+                    cmd.Parameters.AddWithValue("@TotalAmount", order.TotalAmount);
+                    cmd.Parameters.AddWithValue("@UnitPrice", oi.UnitPrice);
+                    cmd.Parameters.AddWithValue("@Quantity", oi.Quantity);
+                    cmd.Parameters.AddWithValue("@ProductID", oi.ProductId);
+                    cmd.ExecuteNonQuery();
+                }
             }
         }
     }

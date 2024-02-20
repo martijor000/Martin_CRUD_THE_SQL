@@ -31,9 +31,9 @@ namespace DataLibrary.Services
             return _dataAccess.GetRecentOrders();
         }
 
-        public void InsertCustomerAndOrder(Customer customer, Order order, OrderItem orderItem)
+        public void InsertCustomerAndOrder(Customer customer, Order order, List<OrderItem> orderItems)
         {
-            _dataAccess.InsertCustomerAndOrder(customer, order, orderItem);
+            _dataAccess.InsertCustomerAndOrder(customer, order, orderItems);
         }
     }
 }
