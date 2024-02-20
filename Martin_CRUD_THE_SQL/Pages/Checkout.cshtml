@@ -1,0 +1,39 @@
+﻿@page
+@using Martin_CRUD_THE_SQL.Models
+@model Martin_CRUD_THE_SQL.Pages.CheckoutModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+<div class="container">
+    <h1>Checkout</h1>
+    @if (Model.CheckOutProducts.Count > 0)
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Product Name</th>
+                    <th>Unit Price</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var product in Model.CheckOutProducts)
+                {
+                    <tr>
+                        <td>@product.ProductName</td>
+                        <td>@product.UnitPrice.ToString("C")</td>
+                        <td>
+                            <form method="post">
+                                <button type="submit" class="btn btn-danger" asp-page-handler="RemoveFromCart" asp-route-id="@product.Id">Remove</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <a class="btn btn-primary" href="/Checkout/ProcessOrder">Checkout</a>
+    }
+    else
+    {
+        <p>Your cart is empty.</p>
+    }
+</div>

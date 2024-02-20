@@ -1,0 +1,31 @@
+﻿@page
+@using Martin_CRUD_THE_SQL.Models
+@model Martin_CRUD_THE_SQL.Pages.IndexModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+<div class="container">
+    <div class="row justify-content-center">
+        @foreach (Product product in Model.Products)
+        {
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title">@product.ProductName</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">@product.UnitPrice.ToString("C")</h6>
+                    <p class="card-text">@product.Package</p>
+                    <form method="post">
+                        <button type="submit" class="btn btn-primary" asp-page-handler="AddToCart" asp-route-id="@product.Id">Add to Cart</button>
+                    </form>
+                    @if (Model.CheckOutProducts.Exists(p => p.Id == product.Id))
+                    {
+                        <div class="alert alert-success mt-3" role="alert">
+                            Item has been added to the cart.
+                        </div>
+                        <form method="post">
+                            <button type="submit" class="btn btn-danger" asp-page-handler="RemoveFromCart" asp-route-id="@product.Id">Remove from Cart</button>
+                        </form>
+                    }
+                </div>
+            </div>
+        }
+    </div>
+</div>

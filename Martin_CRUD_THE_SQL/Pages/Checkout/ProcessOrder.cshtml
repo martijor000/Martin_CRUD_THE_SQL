@@ -1,0 +1,30 @@
+﻿@page
+@model Martin_CRUD_THE_SQL.Pages.Checkout.ProcessOrderModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+<div class="container">
+    <h1>Process Order</h1>
+    <form method="post">
+        <div class="form-group">
+            <label for="firstName">First Name:</label>
+            <input type="text" class="form-control" id="firstName" name="FirstName" required>
+        </div>
+        <div class="form-group">
+            <label for="lastName">Last Name:</label>
+            <input type="text" class="form-control" id="lastName" name="LastName" required>
+        </div>
+        <div class="form-group">
+            <label for="city">City:</label>
+            <input type="text" class="form-control" id="city" name="City" required>
+        </div>
+        <div class="form-group">
+            <label for="country">Country:</label>
+            <input type="text" class="form-control" id="country" name="Country" required>
+        </div>
+        <div class="form-group">
+            <label for="phone">Phone:</label>
+            <input type="text" class="form-control" id="phone" name="Phone" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit Order</button>
+    </form>
+</div>
