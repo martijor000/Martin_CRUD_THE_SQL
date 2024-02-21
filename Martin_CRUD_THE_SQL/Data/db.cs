@@ -67,6 +67,7 @@ namespace Martin_CRUD_THE_SQL.Data
                 {
                     NewCustomerSummary order = new NewCustomerSummary
                     {
+                        Id = Convert.ToInt32(reader["CustomerId"]),
                         OrderId = Convert.ToInt32(reader["Id"]),
                         OrderDate = Convert.ToDateTime(reader["OrderDate"]),
                         OrderNumber = reader["OrderNumber"].ToString(),
@@ -83,6 +84,7 @@ namespace Martin_CRUD_THE_SQL.Data
 
             return recentOrders;
         }
+
 
         public void InsertCustomerAndOrder(Customer customer, Order order, List<OrderItem> orderItem)
         {

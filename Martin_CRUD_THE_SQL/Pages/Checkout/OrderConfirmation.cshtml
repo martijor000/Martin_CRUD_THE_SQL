@@ -6,13 +6,27 @@
     <h1>Order Confirmation</h1>
     <p>Thank you for your order!</p>
     <p>Your order has been successfully processed!</p>
-    <p>Welcome @Model.FirstName, your Customer Number is @Model.CustomerId and your order number is @Model.OrderNumber</p>
-    <p>Your order of the following products is on the way:</p>
-    <ul>
-        @foreach (Product product in Model.Products)
-        {
-            <li>@product.ProductName</li>
-        }
-    </ul>
+    <p>Welcome @Model.NewCustomerSummaries.First().FirstName, your Customer Number is @Model.NewCustomerSummaries.First().Id, and your order number is @Model.NewCustomerSummaries.First().OrderNumber</p>
+
+    @if (Model.NewCustomerSummaries != null && Model.NewCustomerSummaries.Any())
+    {
+        <p>Your most recent orders:</p>
+        <ul>
+            @foreach (var summary in Model.NewCustomerSummaries)
+            {
+                <li>
+                    Order Number: @summary.OrderNumber<br />
+                    Total Amount: @summary.TotalAmount<br />
+                    Customer ID: @summary.Id<br />
+                    Customer Name: @summary.FirstName @summary.LastName<br />
+                </li>
+            }
+        </ul>
+    }
+    else
+    {
+        <p>No recent orders found.</p>
+    }
+
     <a class="btn btn-primary" href="/">Back to Home</a>
 </div>

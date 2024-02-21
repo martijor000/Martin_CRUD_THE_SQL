@@ -47,10 +47,16 @@ namespace Martin_CRUD_THE_SQL.Pages.Checkout
                 TotalAmount = orderItems.Sum(p => p.UnitPrice)
             };
 
+            foreach (var orderItem in orderItemsWithQuantity)
+            {
+                orderItem.OrderId = order.Id;
+            }
+
             _orderService.InsertCustomerAndOrder(customer, order, orderItemsWithQuantity);
 
-            return RedirectToPage("/Checkout/OrderConfirmation", new {customer.FirstName,customer.Id, order.OrderNumber, orderItems});
+            return RedirectToPage("/Checkout/OrderConfirmation");
         }
+
 
         private string GenerateOrderNumber(string lastName)
         {
